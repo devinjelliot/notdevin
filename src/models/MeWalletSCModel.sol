@@ -14,17 +14,17 @@ contract AccessControl {
   }
 
   function readData() public view {
-    require(accessLevels[msg.sender] >= 1, "Insufficient access");
+    require(accessLevels[msg.sender] >= 1, "No read access");
     // read data
   }
 
   function writeData() public {
-    require(accessLevels[msg.sender] >= 2, "Insufficient access");
+    require(accessLevels[msg.sender] >= 2, "No write access");
     // write data
   }
 
   function modifyData() public {
-    require(accessLevels[msg.sender] >= 3, "Insufficient access");
+    require(accessLevels[msg.sender] >= 3, "None of that access either");
     // modify data
   }
 }
