@@ -1,6 +1,6 @@
 import { List } from 'immutable';
 
-export interface MeAccountModel {
+interface MeAccountModel {
   ensName: string;
   name: string;
   farcaster: string;
@@ -21,14 +21,16 @@ enum AccessLevel {
   MODIFY,
 }
 
-class Account {
+class AccountModel {
   private accounts: List<MeAccountModel> = List([]);
 
-  public addAccount(account: Account): MeAccountModel {
-    return new AccountModel(this.accounts.push(account));
+  public addAccount(account: MeAccountModel): AccountModel {
+    this.accounts = this.accounts.push(account);
+    return this;
   }
+  
 
-  public getAccount(addressOrEnsName: string): Account | undefined {
+  public getAccount(addressOrEnsName: string): MeAccountModel | undefined {
     return this.accounts.find((account) => account.address === addressOrEnsName || account.ensName === addressOrEnsName);
   }
 
@@ -36,7 +38,8 @@ class Account {
     const account = this.getAccount(addressOrEnsName);
     if (account) {
       const index = this.accounts.indexOf(account);
-      return new AccountModel(this.accounts.set(index, { ...account, accessLevel }));
+      this.accounts = this.accounts.set(index, { ...account, accessLevel })
+      return this;
     }
     return this;
   }
